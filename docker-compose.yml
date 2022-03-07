@@ -6,7 +6,7 @@ networks:
 services:
   nginx:
     image: nginx:stable-alpine
-    container_name: rating_nginx
+    container_name: paystar_nginx
     ports:
       - "8000:80"
     volumes:
@@ -19,7 +19,7 @@ services:
       - backend
   mysql:
     image: mysql:8.0
-    container_name: rating_mysql
+    container_name: paystar_mysql
     volumes:
       - ./mysql:/var/liv/mysql
     restart: unless-stopped
@@ -27,7 +27,7 @@ services:
     ports:
       - "3306:3306"
     environment:
-      - "MYSQL_DATABASE=rating_db"
+      - "MYSQL_DATABASE=paystar_db"
       - "MYSQL_USER=homestead"
       - "MYSQL_PASSWORD=secret"
       - "MYSQL_ROOT_PASSWORD=secret"
@@ -37,7 +37,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: rating_php
+    container_name: paystar_php
     volumes:
       - ./src:/var/www/html
     ports:
@@ -46,7 +46,7 @@ services:
       - backend
   composer:
     image: composer:latest
-    container_name: rating_composer
+    container_name: paystar_composer
     volumes:
       - ./src:/var/www/html
     working_dir: /var/www/html
@@ -56,7 +56,7 @@ services:
       - backend
   npm:
     image: node:13.7
-    container_name: rating_npm
+    container_name: paystar_npm
     volumes:
       - ./src:/var/www/html
     working_dir: /var/www/html
@@ -65,7 +65,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: rating_artisan
+    container_name: paystar_artisan
     volumes:
       - ./src:/var/www/html
     depends_on:
